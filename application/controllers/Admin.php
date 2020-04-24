@@ -186,6 +186,52 @@ class Admin extends CI_Controller {
 		// print_r($outlet);
 	}
 
+	public function edit_transaksi(){
+
+		// data insert ke transaksi
+		// $data['id_transaksi'] 	 = $this->generateRandomString('TRS09042021');
+		// $data['kode_invoice'] 	 = $this->generateRandomString('09042009'); 
+		$where['id_transaksi']   = $this->input->post('id_transaksi');
+		$data['kode_invoice']    = $this->input->post('kode_invoice');
+		$data['id_pelanggan']    = $this->input->post('pelanggan');
+		$data['id_user']      	 = $this->input->post('penjual');
+		$data['tgl']         	 = $this->input->post('tgl');
+		$data['batas_waktu']  	 = $this->input->post('batas_waktu');
+		$data['biaya_tambahan']  = $this->input->post('biaya_tambahan');
+		$data['diskon']  		 = $this->input->post('diskon');
+		$data['pajak']			 = $this->input->post('pajak');
+		$data['status']			 = 'baru';
+		$data['dibayar']		 = $this->input->post('dibayar');
+		$data['tgl_bayar'] 		 = '0000-00-00 00:00:00';
+
+		if($data['dibayar'] == "dibayar"){
+			$data['tgl_bayar'] = date('Y-m-d h:i:s');
+		}
+
+		$outlet = $this->db->query("select * from user where id_user = ".$data['id_user'])->result();
+		$data['id_outlet'] 		 = $outlet[0]->id_outlet;
+
+		// data insert ke detail transaksi
+		$detail['id_transaksi']  = $where['id_transaksi'];
+		$detail['keterangan']    = $this->input->post('keterangan');
+		$detail['qty']           = $this->input->post('qty');
+		$detail['id_paket']		 = $this->input->post('id_paket');
+
+		$paket = $this->db->get_where('paket', array('id_paket' => $detail['id_paket']))->result();
+		$data['total_harga']     = $paket[0]->harga * $detail['qty'];
+
+		$hasil = $this->m_transaksi->edit_transaksi($data, $detail, $where);
+
+		if($hasil){
+			$this->session->set_flashdata('cek_edit', 'berhasil');
+			redirect('admin/transaksi');
+		}else{
+			$this->session->set_flashdata('cek_edit', 'gagal');
+			redirect('admin/transaksi');
+		}
+		// print_r($data);
+	}
+
 	public function tambah_pengguna(){
 		$data['id_outlet'] = $this->input->post('outlet');
 		$data['nama_user'] = $this->input->post('nama_user');

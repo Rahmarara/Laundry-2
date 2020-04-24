@@ -70,8 +70,8 @@
                           <td><?="Rp " . number_format($t->total_harga,2,',','.')?></td>
                           <td>
                             <button type='button' class='btn btn-warning btn-sm mb-3' data-toggle='modal' data-target='#detailTransaksi<?=$t->id_transaksi?>'>Detail</button>
-                            <button type='button' class='btn btn-warning btn-sm mb-3 btn-circle' data-toggle='modal' data-target='#editTransaksi<?=$t->id_transaksi?>'><i class='fas fa-pencil-alt'></i></button>
-                            <button type='button' class='btn btn-danger btn-sm mb-3 btn-circle' data-toggle='modal' data-target='#hapusTransaksi<?=$t->id_transaksi?>'><i class='fas fa-trash-alt'></i></button>
+                            <button type='button' class='btn btn-warning btn-sm mb-3' data-toggle='modal' data-target='#editTransaksi<?=$t->id_transaksi?>'><i class='fas fa-pencil-alt'></i></button>
+                            <button type='button' class='btn btn-danger btn-sm mb-3' data-toggle='modal' data-target='#hapusTransaksi<?=$t->id_transaksi?>'><i class='fas fa-trash-alt'></i></button>
                           </td>
                           </tr>
                           <?php endforeach;?>
@@ -102,6 +102,7 @@
 
   <?php $this->load->view('admin/transaksi/tambah'); ?>
   <?php $this->load->view('admin/transaksi/edit'); ?>
+  <?php $this->load->view('admin/transaksi/detail'); ?>
 
   <?php $this->load->view('admin/template_admin/footer'); ?>
 
@@ -176,24 +177,25 @@
     $('#penjual').change(function(){
         var id_user = $(this).val();
         console.log(id_user);
-        $.ajax({
-        type: 'post',
-        // dataType: 'json',
-        url: '<?=base_url('admin/paket')?>',
-        data: {
-            "id_user":id_user
-        },
-        success: function(response){
-            var hasil = JSON.parse(response);
-            var html = "<option selected disabled>Pilih Produk</option>";
-            // var hasil = JSON.stringify(response);
-            console.log(hasil);
-            for(i=0; i<hasil.length; i++){
-            // console.log(hasil[i].jenis);
-                html += "<option value='"+hasil[i].id_paket+"'>"+hasil[i].jenis+"</option>";
-            }
-            $('.tampil_jenis').html(html);
-        }
+          $.ajax({
+          type: 'post',
+          // dataType: 'json',
+          url: '<?=base_url('admin/paket')?>',
+          data: {
+              "id_user":id_user
+          },
+          success: function(response){
+              var hasil = JSON.parse(response);
+              var html = "<option selected disabled>Pilih Produk</option>";
+              // var hasil = JSON.stringify(response);
+              console.log(hasil);
+              for(i=0; i<hasil.length; i++){
+              // console.log(hasil[i].jenis);
+                  html += "<option value='"+hasil[i].id_paket+"'>"+hasil[i].jenis+"</option>";
+              }
+              $('.tampil_jenis').html(html);
+          }
+      });
     });
 
     $(".tombol-simpan-transaksi").click(function(){
@@ -228,9 +230,35 @@
         });
         }
     });
-  });
 </script>
 
+<?php foreach($transaksi as $tr):?>
+<script type="text/javascript">
+$('#penjual<?=$tr->id_transaksi?>').change(function(){
+    var id_user = $(this).val();
+    console.log('<?=$tr->id_transaksi?>');
+      $.ajax({
+      type: 'post',
+      dataType: 'json',
+      url: '<?=base_url('admin/data_paket')?>',
+      data: {
+          "id_user":id_user
+      },
+      success: function(hasil){
+          // var hasil = JSON.parse(response);
+          var html = "<option selected disabled>Pilih Produk</option>";
+          // var hasil = JSON.stringify(response);
+          // console.log(hasil[0]['id_paket']);
+          for(i=0; i<hasil.length; i++){
+          // console.log(hasil[i]['jenis']);
+              html += "<option value='"+hasil[i]['id_paket']+"'>"+hasil[i]['jenis']+"</option>";
+          }
+          $('.tampil_jenis<?=$tr->id_transaksi?>').html(html);
+      }
+  });
+});
+</script>
+<?php endforeach;?>
 <script type="text/javascript">
 $(document).ready( function () {
     $('#dataTable').DataTable();
