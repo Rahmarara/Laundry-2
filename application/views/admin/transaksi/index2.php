@@ -10,7 +10,7 @@
     <div id="content-wrapper" class="d-flex flex-column">
 
       <!-- Main Content -->
-      <div id="content">
+      <div id="content"> 
 
         <!-- Topbar -->
         <?php $this->load->view('admin/template_admin/navbar'); ?>
@@ -27,7 +27,6 @@
           <!-- Content Row -->
 
           <div class="row">
-
             <!-- Area Chart -->
             <div class="col-xl-12 col-lg-7">
               <div class="card shadow mb-4">
@@ -45,17 +44,38 @@
                             <th>Kode Invoice</th>
                             <th>Pelanggan</th>
                             <th>Tanggal</th>
-                            <th>Batas Waktu</th>
-                            <th>Tanggal Bayar</th>
-                            <th>Biaya Tambahan</th>
-                            <th>Diskon</th>
+                            <!-- <th>Batas Waktu</th>
+                            <th>Tanggal Bayar</th> -->
                             <th>Status</th>
-                            <th>Status Bayar</th>
+                            <th>Status Pembayaran</th>
                             <th>Harga</th>
-                            <th></th>
+                            <th>Setting</th>
                         </tr>
                         </thead>
-                        <tbody id="tampil_transaksi"></tbody>
+                        <tbody>
+                          <?php $no=1; foreach($transaksi as $t):?>
+                          <tr>
+                          <td><?=$no++;?></td>
+                          <td><?=$t->kode_invoice?></td>
+                          <td><?=$t->pelanggan?></td>
+                          <td><?=date('d-m-Y', strtotime($t->tgl))?></td>
+                          <!-- <td><?=date('d-m-Y', strtotime($t->batas_waktu))?></td> -->
+                          <!-- <td>
+                          <?php if($t->tgl_bayar != "0000-00-00 00:00:00"):?>
+                          <?=date('d-m-Y', strtotime($t->tgl_bayar))?>
+                          <?php endif;?>
+                          </td> -->
+                          <td><?=$t->status?></td>
+                          <td><?=$t->dibayar?></td>
+                          <td><?="Rp " . number_format($t->total_harga,2,',','.')?></td>
+                          <td>
+                            <button type='button' class='btn btn-warning btn-sm mb-3' data-toggle='modal' data-target='#editTransaksi<?=$dp->id_transaksi?>'>Detail</button>
+                            <button type='button' class='btn btn-warning btn-sm mb-3 btn-circle' data-toggle='modal' data-target='#editTransaksi<?=$dp->id_transaksi?>'><i class='fas fa-pencil-alt'></i></button>
+                            <button type='button' class='btn btn-danger btn-sm mb-3 btn-circle' data-toggle='modal' data-target='#hapusTransaksi<?=$dp->id_transaksi?>'><i class='fas fa-trash-alt'></i></button>
+                          </td>
+                          </tr>
+                          <?php endforeach;?>
+                        </tbody>
                     </table>
                   </div>
                 </div>
@@ -201,7 +221,8 @@
             url : '<?=base_url('admin/tambah_transaksi')?>',
             data: data,
             success: function(){
-                get_transaksi();
+                // get_transaksi();
+                location.reload();
             }
         });
         }
@@ -211,9 +232,7 @@
 
 <script type="text/javascript">
 $(document).ready( function () {
-    $('#dataTable').DataTable({
-        "searching": false
-    });
+    $('#dataTable').DataTable();
 } );
 </script>
 </body>

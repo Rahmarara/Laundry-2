@@ -12,7 +12,7 @@ class M_transaksi extends CI_Model {
                   ->join('pelanggan p',' p.id_pelanggan = transaksi.id_pelanggan')
                   ->join('user u',' u.id_user = transaksi.id_user')
                   ->join('outlet o',' o.id_outlet = transaksi.id_outlet');
-        return $this->db->get()->result_array();
+        return $this->db->get()->result();
     }
 
     public function tambah_transaksi($data_transaksi, $data_detail){
