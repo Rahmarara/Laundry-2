@@ -34,11 +34,11 @@
   <!-- <script src="<?=base_url()?>assets/template/admin/js/demo/datatables-demo.js"></script> -->
 
   <!-- Page level plugins -->
-  <!-- <script src="<?=base_url()?>assets/template/admin/vendor/chart.js/Chart.min.js"></script> -->
+  <script src="<?=base_url()?>assets/template/admin/vendor/chart.js/Chart.min.js"></script>
 
   <!-- Page level custom scripts -->
-  <!-- <script src="<?=base_url()?>assets/template/admin/s/demo/chart-area-demo.js"></script>
-  <script src="<?=base_url()?>assets/template/admin/js/demo/chart-pie-demo.js"></script> -->
+  <script src="<?=base_url()?>assets/template/admin/js/demo/chart-area-demo.js"></script>
+  <script src="<?=base_url()?>assets/template/admin/js/demo/chart-pie-demo.js"></script>
 
   <!-- JavaScript -->
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>

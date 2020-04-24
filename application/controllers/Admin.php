@@ -23,6 +23,7 @@ class Admin extends CI_Controller {
 			$data['pelanggan'] = $this->m_pelanggan->get_data(); 
 			$data['penjual']   = $this->m_penjual->get_data();
 			$data['outlet']    = $this->m_outlet->get_outlet();
+			$data['transaksi_hari_ini'] = $this->m_transaksi->transaksi_hari_ini();
 
 			// $this->load->view('admin/template/header');
 			// $this->load->view('admin/index', $data);

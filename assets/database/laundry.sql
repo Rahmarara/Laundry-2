@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: 19 Apr 2020 pada 15.21
--- Versi Server: 10.1.28-MariaDB
--- PHP Version: 7.1.10
+-- Host: 127.0.0.1:3306
+-- Generation Time: Apr 24, 2020 at 10:20 PM
+-- Server version: 10.4.6-MariaDB
+-- PHP Version: 7.0.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `detail_transaksi`
+-- Table structure for table `detail_transaksi`
 --
 
 CREATE TABLE `detail_transaksi` (
@@ -37,20 +37,21 @@ CREATE TABLE `detail_transaksi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `detail_transaksi`
+-- Dumping data for table `detail_transaksi`
 --
 
 INSERT INTO `detail_transaksi` (`id_detail_transaksi`, `id_transaksi`, `id_paket`, `qty`, `keterangan`) VALUES
-(20, 'TRS090420212507', 7, 1, '-'),
+(20, 'TRS090420212507', 9, 5, ''),
 (21, 'TRS090420213027', 7, 1, '-'),
 (22, 'TRS090420213027', 9, 1, '-'),
 (23, 'TRS090420213330', 7, 1, '-'),
-(24, 'TRS090420213330', 9, 1, '-');
+(34, 'TRS090420214914', 4, 4, ''),
+(35, 'TRS090420219442', 9, 5, '');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `outlet`
+-- Table structure for table `outlet`
 --
 
 CREATE TABLE `outlet` (
@@ -61,17 +62,18 @@ CREATE TABLE `outlet` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `outlet`
+-- Dumping data for table `outlet`
 --
 
 INSERT INTO `outlet` (`id_outlet`, `nama_outlet`, `alamat_outlet`, `tlp`) VALUES
-(2, 'Terang', 'Jl. mada', '08232323010'),
-(3, 'Cahaya', 'jl. sudirman', '08232323010');
+(2, 'Terang', 'Jl. mada', '081943214722'),
+(3, 'Cahaya', 'jl. sudirman', '08232323010'),
+(4, '1010 laundry', 'Kos 1010', '081943214722');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `paket`
+-- Table structure for table `paket`
 --
 
 CREATE TABLE `paket` (
@@ -83,19 +85,19 @@ CREATE TABLE `paket` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `paket`
+-- Dumping data for table `paket`
 --
 
 INSERT INTO `paket` (`id_paket`, `id_outlet`, `jenis`, `nama_paket`, `harga`) VALUES
 (4, 2, 'kaos', 'hemat', 5000),
 (7, 2, 'selimut', 'Mantap', 7500),
-(8, 3, 'lain', 'asd', 10000),
+(8, 3, 'bed_cover', 'Simple', 10000),
 (9, 2, 'kiloan', 'juwet', 25000);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pelanggan`
+-- Table structure for table `pelanggan`
 --
 
 CREATE TABLE `pelanggan` (
@@ -108,7 +110,7 @@ CREATE TABLE `pelanggan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `pelanggan`
+-- Dumping data for table `pelanggan`
 --
 
 INSERT INTO `pelanggan` (`id_pelanggan`, `id_outlet`, `nama`, `alamat`, `no_hp`, `jk`) VALUES
@@ -116,12 +118,34 @@ INSERT INTO `pelanggan` (`id_pelanggan`, `id_outlet`, `nama`, `alamat`, `no_hp`,
 (2, 2, 'lala', 'jl. lili', '0826252626', 'P'),
 (5, 3, 'habib', 'paraea', '786594034586', 'P'),
 (6, 3, 'luck', 'poa', '98012', 'L'),
-(7, 2, 'amahu', 'a', '0', 'L');
+(7, 2, 'amahu', 'jl an uaja', '08761237123', 'L');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `transaksi`
+-- Table structure for table `tabel_log`
+--
+
+CREATE TABLE `tabel_log` (
+  `log_id` int(11) NOT NULL,
+  `log_time` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `log_user` varchar(255) DEFAULT NULL,
+  `log_tipe` int(11) DEFAULT NULL,
+  `log_desc` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tabel_log`
+--
+
+INSERT INTO `tabel_log` (`log_id`, `log_time`, `log_user`, `log_tipe`, `log_desc`) VALUES
+(12, '2020-04-24 20:19:00', 'rara', 1, 'Sedang Logout'),
+(13, '2020-04-24 20:19:14', 'rara', 0, 'Sedang Login');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaksi`
 --
 
 CREATE TABLE `transaksi` (
@@ -142,18 +166,21 @@ CREATE TABLE `transaksi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `transaksi`
+-- Dumping data for table `transaksi`
 --
 
 INSERT INTO `transaksi` (`id_transaksi`, `id_outlet`, `id_pelanggan`, `id_user`, `kode_invoice`, `tgl`, `batas_waktu`, `tgl_bayar`, `biaya_tambahan`, `diskon`, `pajak`, `status`, `dibayar`, `total_harga`) VALUES
-('TRS090420212507', 3, 6, 1, '090420092507', '2020-04-09', '2020-04-09', '2020-04-09 21:25:25', 0, 0, 0, 'diambil', 'dibayar', 7500),
-('TRS090420213027', 2, 1, 12, '090420093027', '2020-04-09', '2020-04-10', '2020-04-09 21:31:16', 0, 0, 0, 'diambil', 'dibayar', 32500),
-('TRS090420213330', 2, 1, 12, '090420093330', '2020-04-09', '2020-04-02', '0000-00-00 00:00:00', 0, 0, 0, 'proses', 'belum_dibayar', 32500);
+('', 2, 7, 16, '090420096351', '2020-04-24', '2020-04-29', '0000-00-00 00:00:00', 0, 0, 0, 'baru', 'belum_dibayar', 125000),
+('TRS090420212507', 3, 7, 18, '090420092507', '2020-04-09', '2020-04-09', '2020-04-24 09:36:28', 0, 0, 0, 'baru', 'dibayar', 125000),
+('TRS090420213027', 2, 1, 15, '090420093027', '2020-04-09', '2020-04-10', '2020-04-09 21:31:16', 0, 0, 0, 'diambil', 'dibayar', 32500),
+('TRS090420213330', 2, 1, 15, '090420093330', '2020-04-09', '2020-04-02', '0000-00-00 00:00:00', 0, 0, 0, 'proses', 'belum_dibayar', 32500),
+('TRS090420214914', 2, 2, 1, '090420095790', '2020-04-22', '2020-04-23', '2020-04-22 07:13:43', 0, 0, 0, 'baru', 'dibayar', 20000),
+('TRS090420219442', 2, 1, 1, '090420096351', '2020-04-22', '2020-04-29', '0000-00-00 00:00:00', 0, 0, 0, 'baru', 'belum_dibayar', 125000);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -166,11 +193,14 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id_user`, `id_outlet`, `nama_user`, `username`, `password`, `level`) VALUES
-(14, 2, 'rara', 'rara', '81dc9bdb52d04dc20036dbd8313ed055', 'admin');
+(1, 2, 'rara', 'rara', '81dc9bdb52d04dc20036dbd8313ed055', 'admin'),
+(15, 3, 'jono', 'jono', '81dc9bdb52d04dc20036dbd8313ed055', 'kasir'),
+(16, 2, 'dadang', 'dadang', '81dc9bdb52d04dc20036dbd8313ed055', 'kasir'),
+(18, 3, 'dudung', 'dudung', '81dc9bdb52d04dc20036dbd8313ed055', 'owner');
 
 --
 -- Indexes for dumped tables
@@ -204,6 +234,12 @@ ALTER TABLE `pelanggan`
   ADD KEY `foreign` (`id_outlet`);
 
 --
+-- Indexes for table `tabel_log`
+--
+ALTER TABLE `tabel_log`
+  ADD PRIMARY KEY (`log_id`);
+
+--
 -- Indexes for table `transaksi`
 --
 ALTER TABLE `transaksi`
@@ -225,62 +261,68 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
-  MODIFY `id_detail_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_detail_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `outlet`
 --
 ALTER TABLE `outlet`
-  MODIFY `id_outlet` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_outlet` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `paket`
 --
 ALTER TABLE `paket`
-  MODIFY `id_paket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_paket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `pelanggan`
 --
 ALTER TABLE `pelanggan`
-  MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `tabel_log`
+--
+ALTER TABLE `tabel_log`
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `detail_transaksi`
+-- Constraints for table `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
   ADD CONSTRAINT `detail_transaksi_ibfk_1` FOREIGN KEY (`id_transaksi`) REFERENCES `transaksi` (`id_transaksi`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `paket`
+-- Constraints for table `paket`
 --
 ALTER TABLE `paket`
   ADD CONSTRAINT `paket_ibfk_1` FOREIGN KEY (`id_outlet`) REFERENCES `outlet` (`id_outlet`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `pelanggan`
+-- Constraints for table `pelanggan`
 --
 ALTER TABLE `pelanggan`
   ADD CONSTRAINT `pelanggan_ibfk_1` FOREIGN KEY (`id_outlet`) REFERENCES `outlet` (`id_outlet`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `transaksi`
+-- Constraints for table `transaksi`
 --
 ALTER TABLE `transaksi`
   ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`id_outlet`) REFERENCES `outlet` (`id_outlet`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `user`
+-- Constraints for table `user`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`id_outlet`) REFERENCES `outlet` (`id_outlet`) ON DELETE CASCADE ON UPDATE CASCADE;

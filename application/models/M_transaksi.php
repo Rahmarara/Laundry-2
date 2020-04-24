@@ -26,6 +26,12 @@ class M_transaksi extends CI_Model {
             return $this->db->update('detail_transaksi', $data_detail, $where);
     }
 
+    public function transaksi_hari_ini(){
+        $tanggal = date('Y-m-d');
+        return $this->db->query('SELECT count(*) as total FROM transaksi
+        WHERE tgl = "'.$tanggal.'"')->result();
+    }
+
 }
 
 /* End of file M_transaksi.php */
