@@ -176,7 +176,7 @@
 
     $('#penjual').change(function(){
         var id_user = $(this).val();
-        console.log(id_user);
+        // console.log(id_user);
           $.ajax({
           type: 'post',
           dataType: 'json',
@@ -188,7 +188,7 @@
               // var hasil = JSON.parse(response);
               var html = "<option selected disabled>Pilih Produk</option>";
               // var hasil = JSON.stringify(response);
-              console.log(hasil);
+              // console.log(hasil);
               for(i=0; i<hasil.length; i++){
               // console.log(hasil[i].jenis);
                   html += "<option value='"+hasil[i]['id_paket']+"'>"+hasil[i]['jenis']+"</option>";
