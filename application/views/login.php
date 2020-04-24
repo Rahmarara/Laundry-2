@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Login</title>
+  <title>Laundry</title>
 
   <!-- Custom fonts for this template-->
   <link href="<?=base_url()?>assets/template/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -33,7 +33,7 @@
           <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
             <div class="row">
-              <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+              <div class="col-lg-6 d-none d-lg-block"></div>
               <div class="col-lg-6">
                 <div class="p-5">
                   <div class="text-center">

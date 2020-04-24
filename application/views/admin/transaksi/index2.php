@@ -179,19 +179,19 @@
         console.log(id_user);
           $.ajax({
           type: 'post',
-          // dataType: 'json',
-          url: '<?=base_url('admin/paket')?>',
+          dataType: 'json',
+          url: '<?=base_url('admin/data_paket')?>',
           data: {
               "id_user":id_user
           },
-          success: function(response){
-              var hasil = JSON.parse(response);
+          success: function(hasil){
+              // var hasil = JSON.parse(response);
               var html = "<option selected disabled>Pilih Produk</option>";
               // var hasil = JSON.stringify(response);
               console.log(hasil);
               for(i=0; i<hasil.length; i++){
               // console.log(hasil[i].jenis);
-                  html += "<option value='"+hasil[i].id_paket+"'>"+hasil[i].jenis+"</option>";
+                  html += "<option value='"+hasil[i]['id_paket']+"'>"+hasil[i]['jenis']+"</option>";
               }
               $('.tampil_jenis').html(html);
           }

@@ -30,9 +30,9 @@ class M_transaksi extends CI_Model {
         $tanggal = date('Y-m-d');
         $tgl2 = date('Y-m-d', strtotime('-6 days', strtotime($tanggal)));
 
-        $where = !empty($id)?'id_outlet = "'.$id.'"': null;
+        $where = !empty($id)?'id_outlet = "'.$id.'" and': null;
         $sql = 'SELECT count(*) as total FROM transaksi
-                WHERE '.$where.' and
+                WHERE '.$where.'
                 tgl >= "'.$tgl2.'" and "'.$tanggal.'"';
         $data = $this->db->query($sql);
         return $data->result();
@@ -42,9 +42,9 @@ class M_transaksi extends CI_Model {
         $tanggal = date('Y-m-d');
         $tgl2 = date('Y-m-d', strtotime('-6 days', strtotime($tanggal)));
 
-        $where = !empty($id)?'id_outlet = "'.$id.'"': null;
+        $where = !empty($id)?'id_outlet = "'.$id.'" and': null;
         $sql = 'SELECT sum(total_harga) as total FROM transaksi
-                WHERE '.$where.' and
+                WHERE '.$where.'
                 tgl >= "'.$tgl2.'" and "'.$tanggal.'"';
         $data = $this->db->query($sql);
         return $data->result();
