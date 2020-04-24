@@ -15,19 +15,45 @@ class Admin extends CI_Controller {
 		$this->load->model('m_paket');
 		$this->load->model('m_outlet');
 		$this->load->model('m_pengguna');
+		$this->load->model('m_log');
 	}
 
 	public function index(){
+		$userdata = $this->session->userdata('cek_login');
+		if(!empty($userdata)){
+			$data['transaksi'] = $this->m_transaksi->get_transaksi();
+			$data['pelanggan'] = $this->m_pelanggan->get_data(); 
+			$data['penjual']   = $this->m_penjual->get_data();
+			$data['outlet']    = $this->m_outlet->get_outlet();
+			
+			$id_outlet = ($userdata->level != "admin") ? $userdata->id_outlet : null;
+			$data['transaksi_hari_ini'] = $this->m_transaksi->transaksi_hari_ini($id_outlet);
+			$data['penghasilan_seminggu'] = $this->m_transaksi->total_keuntungan_seminggu($id_outlet);
+			$data['total_status_baru']  = $this->m_transaksi->total_status_baru($id_outlet);
+			$data['total_status_proses']  = $this->m_transaksi->total_status_proses($id_outlet);
+			$data['data_log']  = $this->m_log->get_log();
+
+			// $this->load->view('admin/template/header');
+			// $this->load->view('admin/index', $data);
+			$this->load->view('admin/index2', $data);
+			
+		}else{
+			redirect('login');
+		}
+	}
+
+	public function log(){
 		if(!empty($this->session->userdata('cek_login'))){
 			$data['transaksi'] = $this->m_transaksi->get_transaksi();
 			$data['pelanggan'] = $this->m_pelanggan->get_data(); 
 			$data['penjual']   = $this->m_penjual->get_data();
 			$data['outlet']    = $this->m_outlet->get_outlet();
 			$data['transaksi_hari_ini'] = $this->m_transaksi->transaksi_hari_ini();
+			$data['data_log']  = $this->m_log->get_log();
 
 			// $this->load->view('admin/template/header');
 			// $this->load->view('admin/index', $data);
-			$this->load->view('admin/index2', $data);
+			$this->load->view('admin/log', $data);
 			
 		}else{
 			redirect('login');

@@ -8,4 +8,8 @@ class M_log extends CI_Model {
         $ex         = $this->db->query($sql);
         return $this->db->affected_rows($sql);
     }
+
+    public function get_log(){
+        return $this->db->get('tabel_log')->result();
+    }
 }

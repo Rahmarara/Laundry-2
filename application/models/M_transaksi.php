@@ -26,10 +26,52 @@ class M_transaksi extends CI_Model {
             return $this->db->update('detail_transaksi', $data_detail, $where);
     }
 
-    public function transaksi_hari_ini(){
+    public function transaksi_hari_ini($id = ""){
         $tanggal = date('Y-m-d');
-        return $this->db->query('SELECT count(*) as total FROM transaksi
-        WHERE tgl = "'.$tanggal.'"')->result();
+        $tgl2 = date('Y-m-d', strtotime('-6 days', strtotime($tanggal)));
+
+        $where = !empty($id)?'id_outlet = "'.$id.'"': null;
+        $sql = 'SELECT count(*) as total FROM transaksi
+                WHERE '.$where.' and
+                tgl >= "'.$tgl2.'" and "'.$tanggal.'"';
+        $data = $this->db->query($sql);
+        return $data->result();
+    }
+
+    public function total_keuntungan_seminggu($id = ""){
+        $tanggal = date('Y-m-d');
+        $tgl2 = date('Y-m-d', strtotime('-6 days', strtotime($tanggal)));
+
+        $where = !empty($id)?'id_outlet = "'.$id.'"': null;
+        $sql = 'SELECT sum(total_harga) as total FROM transaksi
+                WHERE '.$where.' and
+                tgl >= "'.$tgl2.'" and "'.$tanggal.'"';
+        $data = $this->db->query($sql);
+        return $data->result();
+    }
+
+    public function total_status_proses($id = ""){
+        $tanggal = date('Y-m-d');
+        $tgl2 = date('Y-m-d', strtotime('-6 days', strtotime($tanggal)));
+
+        $where = !empty($id)?'id_outlet = "'.$id.'" and': null;
+        $sql = 'SELECT count(status) as total FROM transaksi
+                WHERE '.$where.' status = "proses" and
+                tgl >= "'.$tgl2.'" and "'.$tanggal.'"';
+        $data = $this->db->query($sql);
+        return $data->result();
+    }
+
+    public function total_status_baru($id = ""){
+        $tanggal = date('Y-m-d');
+        $tgl2 = date('Y-m-d', strtotime('-6 days', strtotime($tanggal)));
+
+        $where = !empty($id)?'id_outlet = "'.$id.'" and': null;
+        $sql = 'SELECT count(status) as total FROM transaksi
+                WHERE '.$where.' status = "baru" and
+                tgl >= "'.$tgl2.'" and "'.$tanggal.'"';
+        $data = $this->db->query($sql);
+        return $data->result();
     }
 
 }
