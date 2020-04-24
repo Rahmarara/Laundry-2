@@ -69,9 +69,9 @@
                           <td><?=$t->dibayar?></td>
                           <td><?="Rp " . number_format($t->total_harga,2,',','.')?></td>
                           <td>
-                            <button type='button' class='btn btn-warning btn-sm mb-3' data-toggle='modal' data-target='#editTransaksi<?=$dp->id_transaksi?>'>Detail</button>
-                            <button type='button' class='btn btn-warning btn-sm mb-3 btn-circle' data-toggle='modal' data-target='#editTransaksi<?=$dp->id_transaksi?>'><i class='fas fa-pencil-alt'></i></button>
-                            <button type='button' class='btn btn-danger btn-sm mb-3 btn-circle' data-toggle='modal' data-target='#hapusTransaksi<?=$dp->id_transaksi?>'><i class='fas fa-trash-alt'></i></button>
+                            <button type='button' class='btn btn-warning btn-sm mb-3' data-toggle='modal' data-target='#detailTransaksi<?=$t->id_transaksi?>'>Detail</button>
+                            <button type='button' class='btn btn-warning btn-sm mb-3 btn-circle' data-toggle='modal' data-target='#editTransaksi<?=$t->id_transaksi?>'><i class='fas fa-pencil-alt'></i></button>
+                            <button type='button' class='btn btn-danger btn-sm mb-3 btn-circle' data-toggle='modal' data-target='#hapusTransaksi<?=$t->id_transaksi?>'><i class='fas fa-trash-alt'></i></button>
                           </td>
                           </tr>
                           <?php endforeach;?>
@@ -101,6 +101,7 @@
   </a>
 
   <?php $this->load->view('admin/transaksi/tambah'); ?>
+  <?php $this->load->view('admin/transaksi/edit'); ?>
 
   <?php $this->load->view('admin/template_admin/footer'); ?>
 
