@@ -32,7 +32,7 @@ class M_transaksi extends CI_Model {
 
         $where = !empty($id)?'id_outlet = "'.$id.'" and': null;
         $sql = 'SELECT count(*) as total FROM transaksi
-                WHERE '.$where.'
+                WHERE '.$where.' 
                 tgl >= "'.$tgl2.'" and "'.$tanggal.'"';
         $data = $this->db->query($sql);
         return $data->result();
