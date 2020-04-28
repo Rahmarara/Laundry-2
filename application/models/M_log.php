@@ -10,6 +10,9 @@ class M_log extends CI_Model {
     }
 
     public function get_log(){
-        return $this->db->get('tabel_log')->result();
+        $sql = "SELECT * FROM tabel_log ORDER BY log_id DESC ";
+        $hasil = $this->db->query($sql);
+                 return $hasil->result();
+        // return $this->db->get('tabel_log')->result();
     }
 }

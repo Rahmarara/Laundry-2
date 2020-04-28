@@ -3,7 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_transaksi extends CI_Model {
 
-    public function get_transaksi(){
+    public function get_transaksi($id_user = ""){
+
         $this->db->select('p.nama AS pelanggan,
                            u.nama_user AS penjual,
                            o.nama_outlet AS outlet,
@@ -13,6 +14,11 @@ class M_transaksi extends CI_Model {
                   ->join('user u',' u.id_user = transaksi.id_user')
                   ->join('outlet o',' o.id_outlet = transaksi.id_outlet')
                   ->join('detail_transaksi dt',' dt.id_transaksi = transaksi.id_transaksi');
+        
+        if(!empty($id_user)){
+            $this->db->where('transaksi.id_user', $id_user);
+        }
+
         return $this->db->get()->result();
     }
 
@@ -72,6 +78,11 @@ class M_transaksi extends CI_Model {
                 tgl >= "'.$tgl2.'" and "'.$tanggal.'"';
         $data = $this->db->query($sql);
         return $data->result();
+    }
+
+    public function hapus($id){
+        $this->db->delete('transaksi', array('id_transaksi' => $id));
+        return $this->db->delete('transaksi', array('id_transaksi' => $id));
     }
 
 }

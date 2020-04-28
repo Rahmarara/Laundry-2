@@ -7,7 +7,8 @@ class Login extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->helper('form');
-        $this->load->library('form_validation');
+		$this->load->library('form_validation');
+		$this->load->library('get_ipaddress');
         $this->load->model('m_login');
 	}
 
@@ -35,7 +36,8 @@ class Login extends CI_Controller {
 				$this->session->set_userdata('cek_login', $cek_login);
 				$ambil = $this->session->userdata('cek_login');
 				// simpan log
-				helper_log("login", 'Sedang Login', $ambil->nama_user);
+				$ipaddress = $this->get_ipaddress->getUserIpAddr();
+				helper_log("login", 'Sedang Login, '.$ipaddress, $ambil->nama_user);
 				redirect('admin');
 			}else{
 				$this->session->set_flashdata('cek_login', 'gagal');
@@ -50,7 +52,8 @@ class Login extends CI_Controller {
 
 	public function logout(){
 		$ambil = $this->session->userdata('cek_login');
-		helper_log("logout", 'Sedang Logout', $ambil->nama_user);
+		$ipaddress = $this->get_ipaddress->getUserIpAddr();
+		helper_log("logout", 'Sedang Logout, '.$ipaddress, $ambil->nama_user);
 		$this->session->sess_destroy();
 		$data = array('pesan_keluar' => 'telah logout');
 		

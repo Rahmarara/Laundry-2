@@ -34,7 +34,7 @@
                 <div class="card-body">
                   <div class="table-responsive">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#exampleModal">
+                    <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#exampleModal">
                             Tambah
                     </button>
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -103,6 +103,7 @@
   <?php $this->load->view('admin/transaksi/tambah'); ?>
   <?php $this->load->view('admin/transaksi/edit'); ?>
   <?php $this->load->view('admin/transaksi/detail'); ?>
+  <?php $this->load->view('admin/transaksi/hapus'); ?>
 
   <?php $this->load->view('admin/template_admin/footer'); ?>
 

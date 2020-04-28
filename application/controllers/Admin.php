@@ -61,11 +61,24 @@ class Admin extends CI_Controller {
 	}
 
 	public function transaksi(){
-		if(!empty($this->session->userdata('cek_login'))){
-			$data['transaksi'] = $this->m_transaksi->get_transaksi();
-			$data['pelanggan'] = $this->m_pelanggan->get_data(); 
+		$userdata = $this->session->userdata('cek_login');
+		$tanggal_awal = $this->input->post('tanggal_awal');
+		$tanggal_akhir = $this->input->post('tanggal_akhir');
+
+		if(!empty($userdata)){
+			$id_transaksi = ($userdata->level != "admin") ? $userdata->id_user : null;
+			$data['transaksi'] = $this->m_transaksi->get_transaksi($id_transaksi);
+			
+			if($userdata->level == "admin"){
+				$data['pelanggan'] = $this->m_pelanggan->get_data();
+			}else{
+				$data['paket']     = $this->m_paket->get_paket_select($userdata->id_user);
+				$data['pelanggan'] = $this->m_pelanggan->get_per_kasir($userdata->id_outlet);
+			} 
+
 			$data['penjual']   = $this->m_penjual->get_data();
 			$data['outlet']    = $this->m_outlet->get_outlet();
+			$data['user_data'] = $userdata;
 
 			// $this->load->view('admin/template/header');
 			// $this->load->view('admin/index', $data);
@@ -427,6 +440,35 @@ class Admin extends CI_Controller {
 			$this->session->set_flashdata('cek_hapus', 'gagal');
 			redirect('admin/paket');
 		}
+	}
+
+	public function hapus_transaksi(){
+		$id_transaksi = $this->input->post('id_transaksi');
+		$hasil = $this->m_transaksi->hapus($id_transaksi);
+
+		if($hasil){
+			$this->session->set_flashdata('cek_hapus', 'berhasil');
+			redirect('admin/transaksi');
+		}else{
+			$this->session->set_flashdata('cek_hapus', 'gagal');
+			redirect('admin/transaksi');
+		}
+	}
+
+	public function tes(){
+		$data = array(
+			"dataku" => array(
+				"nama" => "Petani Kode",
+				"url" => "http://petanikode.com"
+			)
+		);
+	
+		$this->load->library('pdf');
+	
+		$this->pdf->setPaper('A4', 'potrait');
+		$this->pdf->filename = "laporan-petanikode.pdf";
+		$this->pdf->load_view('laporan_pdf', $data);
+	
 	}
 
 	private function generateRandomString($kode_depan, $length = 4) {
